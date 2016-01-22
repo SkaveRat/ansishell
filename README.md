@@ -2,6 +2,12 @@
 
 A small tool to quickly open an ansible group in multi-ssh
 
+## Dependencies
+
+* mssh
+* Ansible
+* Python2 ConfigParser
+
 ## INI file
 
 create an `.ansishell` file in your home directory:
@@ -22,3 +28,8 @@ For default environment, you can just use the group name as a parameter:
 For a specific environment, use it as first parameter:
 
 `./ansishell dev web`
+
+## TODO
+
+* Errorhandling
+* Configure Shell
