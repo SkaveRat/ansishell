@@ -3,12 +3,18 @@ from ansible import inventory
 import subprocess
 import ConfigParser
 import sys
-from os.path import expanduser
+from os.path import expanduser, isfile
 
 
 dotfile = ConfigParser.ConfigParser()
 home = expanduser("~")
-dotfile.read(home + "/.ansishell")
+dotfile_path = home + "/.ansishell"
+
+if not isfile(dotfile_path):
+    print("~/.ansishell config not found")
+    exit(1)
+
+dotfile.read(dotfile_path)
 
 args = sys.argv
 
