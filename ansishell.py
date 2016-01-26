@@ -27,6 +27,10 @@ inventory_path = config.get("inventory", env)
 inventory_manager = inventory.Inventory(inventory_path)
 hosts = inventory_manager.list_hosts(group)
 
+if len(hosts) == 0:
+    print("No hosts found")
+    exit(1)
+
 args = ["mssh"] + hosts
 
 subprocess.call(args)
