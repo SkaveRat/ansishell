@@ -1,10 +1,9 @@
 # Ansishell
 
-A small tool to quickly open an ansible group in multi-ssh
+A small tool to quickly ssh into an ansible host group
 
 ## Dependencies
 
-* mssh
 * Ansible
 * Python2 ConfigParser
 
@@ -14,22 +13,22 @@ create an `.ansishell` file in your home directory:
 
 ```ini
 [inventory]
+; "default" is required
 default=/home/foobar/myproject/dev_inventory
 dev=/home/foobar/myproject/dev_inventory
 production=/home/foobar/myproject/production_inventory
+
+[config]
+; the command to open multiple shells. Needs to support syntax "$command $host1 $host2 ..."
+command=mssh
 ```
 
 ## Usage
 
 For default environment, you can just use the group name as a parameter:
 
-`./ansishell web`
+`./ansishell.py web`
 
 For a specific environment, use it as first parameter:
 
-`./ansishell dev web`
-
-## TODO
-
-* Errorhandling
-* Configure Shell
+`./ansishell.py dev web`
