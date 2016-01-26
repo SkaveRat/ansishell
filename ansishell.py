@@ -6,12 +6,14 @@ import sys
 from os.path import expanduser
 
 
-config = ConfigParser.ConfigParser()
+dotfile = ConfigParser.ConfigParser()
 home = expanduser("~")
-config.read(home + "/.ansishell")
+dotfile.read(home + "/.ansishell")
+
 args = sys.argv
 
-environments = config.options("inventory")
+environments = dotfile.options("inventory")
+config = dotfile.options("config")
 
 # TODO check for missing defaults
 
@@ -22,7 +24,8 @@ if len(args) >= 3:
     env = args[1]
     group = args[2]
 
-inventory_path = config.get("inventory", env)
+inventory_path = dotfile.get("inventory", env)
+shell_command = dotfile.get("config", "command")
 
 inventory_manager = inventory.Inventory(inventory_path)
 hosts = inventory_manager.list_hosts(group)
@@ -31,6 +34,6 @@ if len(hosts) == 0:
     print("No hosts found")
     exit(1)
 
-args = ["mssh"] + hosts
+args = [shell_command] + hosts
 
 subprocess.call(args)
