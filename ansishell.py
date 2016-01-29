@@ -38,7 +38,9 @@ inventory_manager = inventory.Inventory(inventory_path)
 hosts = inventory_manager.list_hosts(group)
 
 if args.l:
-    print("Groups:")
+    inventory_path = dotfile.get("inventory", group) # actually is the env parameter now
+    inventory_manager = inventory.Inventory(inventory_path)
+    print("Groups in %s:" % inventory_path)
     for group_item in inventory_manager.list_groups():
         print(group_item)
     exit(0)
