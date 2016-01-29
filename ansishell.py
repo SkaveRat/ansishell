@@ -2,7 +2,7 @@
 from ansible import inventory
 import subprocess
 import ConfigParser
-import sys
+import argparse
 from os.path import expanduser, isfile
 
 
@@ -16,19 +16,20 @@ if not isfile(dotfile_path):
 
 dotfile.read(dotfile_path)
 
-args = sys.argv
+argparser = argparse.ArgumentParser()
 
 environments = dotfile.options("inventory")
 config = dotfile.options("config")
 
 # TODO check for missing defaults
 
-env = "default"
-group = args[1]
+argparser.add_argument("group", help="ansible group")
+argparser.add_argument("env", help="name of environment", default="default", nargs="?")
+argparser.add_argument("-l", help="name of environment", action="store_true")
+args = argparser.parse_args()
 
-if len(args) >= 3:
-    env = args[1]
-    group = args[2]
+env = args.env
+group = args.group
 
 inventory_path = dotfile.get("inventory", env)
 shell_command = dotfile.get("config", "command")
@@ -36,10 +37,16 @@ shell_command = dotfile.get("config", "command")
 inventory_manager = inventory.Inventory(inventory_path)
 hosts = inventory_manager.list_hosts(group)
 
+if args.l:
+    print("Groups:")
+    for group_item in inventory_manager.list_groups():
+        print(group_item)
+    exit(0)
+
 if len(hosts) == 0:
     print("No hosts found")
     exit(1)
 
-args = [shell_command] + hosts
+cmd_args = [shell_command] + hosts
 
-subprocess.call(args)
+subprocess.call(cmd_args)
