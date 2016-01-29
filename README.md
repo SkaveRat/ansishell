@@ -29,6 +29,10 @@ For default environment, you can just use the group name as a parameter:
 
 `./ansishell.py web`
 
-For a specific environment, use it as first parameter:
+For a specific environment, use it as second parameter:
 
-`./ansishell.py dev web`
+`./ansishell.py web dev`
+
+Unsure which groups are configured? Use group listing of an environment:
+
+`./ansishell.py dev -l`
