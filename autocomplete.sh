@@ -1,3 +1,6 @@
+#autoload bashcompinit
+#bashcompinit
+
 _script()
 {
   _script_commands=$(ansishell default -l| tail -n +2 | tr "\n" " ")
