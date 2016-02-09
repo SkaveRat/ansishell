@@ -28,8 +28,16 @@ argparser.add_argument("group", help="ansible group", nargs="?")
 argparser.add_argument("-l", help="name of environment", action="store_true")
 args = argparser.parse_args()
 
-env = args.env
-group = args.group
+first_argument = args.env
+second_argument = args.group
+
+if second_argument is None and not args.l:
+    # We only get one argument. Use default env and set given parameter as group
+    env = "default"
+    group = first_argument
+else:
+    env = first_argument
+    group = second_argument
 
 inventory_path = dotfile.get("inventory", env)
 shell_command = dotfile.get("config", "command")
