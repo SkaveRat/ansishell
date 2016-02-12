@@ -2,4 +2,4 @@
 autoload bashcompinit
 bashcompinit
 
-source $(dirname $0)/autocomplete.sh
+source $(dirname $0)/bashcompletion.sh
