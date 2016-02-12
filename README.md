@@ -25,7 +25,7 @@ command=mssh
 
 ## Installation
 
-Add the `bin` dir to your $PATH
+Add the `bin` dir or symlink the executable somewhere in your `$PATH`
 
 ## Bash completion
 
