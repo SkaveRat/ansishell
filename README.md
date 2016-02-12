@@ -23,20 +23,28 @@ production=/home/foobar/myproject/production_inventory
 command=mssh
 ```
 
+## Installation
+
+Add the `bin` dir to your $PATH
+
+## Bash completion
+
+If you want bash completion, source the `bashcompletion.sh` or `bashcompletion.zsh.sh`
+
 ## Usage
 
 For default environment, you can just use the group name as a parameter:
 
-`./ansishell.py web`
+`ansishell web`
 
 For a specific environment, use it the first parameter:
 
-`./ansishell.py dev web`
+`ansishell dev web`
 
 Unsure which groups are configured? Use group listing of an environment:
 
-`./ansishell.py dev -l`
+`ansishell dev -l`
 
 Need a list of environments?
 
-`./ansishell.py -e`
+`ansishell -e`
