@@ -23,9 +23,10 @@ config = dotfile.options("config")
 
 # TODO check for missing defaults
 
-argparser.add_argument("env", help="name of environment", default="default")
+argparser.add_argument("env", help="name of environment", default="default", nargs="?")
 argparser.add_argument("group", help="ansible group", nargs="?")
-argparser.add_argument("-l", help="name of environment", action="store_true")
+argparser.add_argument("-l", help="list groups", action="store_true")
+argparser.add_argument("-e", help="list environments", action="store_true")
 args = argparser.parse_args()
 
 first_argument = args.env
@@ -43,6 +44,12 @@ inventory_path = dotfile.get("inventory", env)
 shell_command = dotfile.get("config", "command")
 
 inventory_manager = inventory.Inventory(inventory_path)
+
+if args.e:
+    print("Configured groups:")
+    for environment in environments:
+        print(environment)
+    exit(0)
 
 if args.l:
     inventory_manager = inventory.Inventory(inventory_path)

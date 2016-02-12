@@ -36,3 +36,7 @@ For a specific environment, use it the first parameter:
 Unsure which groups are configured? Use group listing of an environment:
 
 `./ansishell.py dev -l`
+
+Need a list of environments?
+
+`./ansishell.py -e`

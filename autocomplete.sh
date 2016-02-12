@@ -1,14 +1,21 @@
-#autoload bashcompinit
-#bashcompinit
-
+#!/usr/bin/env bash
 _script()
 {
-  _script_commands=$(ansishell default -l| tail -n +2 | tr "\n" " ")
-
-  local cur prev
+  local envs env group
   COMPREPLY=()
-  cur="${COMP_WORDS[COMP_CWORD]}"
-  COMPREPLY=( $(compgen -W "${_script_commands}" -- ${cur}) )
+  env="${COMP_WORDS[1]}" #first parameter
+
+  #get list of environments
+  envs=$(ansishell -e| tail -n +2 | tr "\n" " ")
+
+  # given autocomplete is not an environment
+  # autocomplete with default environment instead
+  if ! [[ "${envs[@]}" =~ "${env}" ]]; then
+    env="default"
+  fi;
+
+  _script_commands=$(ansishell ${env} -l| tail -n +2 | tr "\n" " ")
+  COMPREPLY=( $(compgen -W "${_script_commands}" ) )
 
   return 0
 }
