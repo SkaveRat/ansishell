@@ -4,8 +4,10 @@ A small tool to quickly ssh into an ansible host group
 
 ## Dependencies
 
-* Ansible
-* Python2 ConfigParser
+* Ansible 2.2
+* Python 3
+* pyyaml
+* jinja2
 
 ## INI file
 
