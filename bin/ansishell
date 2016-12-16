@@ -1,12 +1,16 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 from ansible import inventory
 import subprocess
-import ConfigParser
+import configparser
 import argparse
 from os.path import expanduser, isfile
+from ansible.parsing.dataloader import DataLoader
+from ansible.vars import VariableManager
 
 
-dotfile = ConfigParser.ConfigParser()
+loader = DataLoader()
+variable_manager = VariableManager()
+dotfile = configparser.ConfigParser()
 home = expanduser("~")
 dotfile_path = home + "/.ansishell"
 
@@ -43,7 +47,7 @@ else:
 inventory_path = dotfile.get("inventory", env)
 shell_command = dotfile.get("config", "command")
 
-inventory_manager = inventory.Inventory(inventory_path)
+inventory_manager = inventory.Inventory(loader, variable_manager, inventory_path)
 
 if args.e:
     print("Configured groups:")
@@ -52,18 +56,17 @@ if args.e:
     exit(0)
 
 if args.l:
-    inventory_manager = inventory.Inventory(inventory_path)
+    inventory_manager = inventory.Inventory(loader, variable_manager, inventory_path)
     print("Groups in %s:" % inventory_path)
     for group_item in inventory_manager.list_groups():
         print(group_item)
     exit(0)
-
 
 hosts = inventory_manager.list_hosts(group)
 if len(hosts) == 0:
     print("No hosts found")
     exit(1)
 
-cmd_args = [shell_command] + hosts
+cmd_args = [shell_command] + [str(x) for x in hosts]  # convert hostlist to strings explicitly
 
 subprocess.call(cmd_args)
